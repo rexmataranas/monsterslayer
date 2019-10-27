@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Monster Slayer</title>
+  <script src="vue.min.js"></script>
+  <link rel="stylesheet" href="foundation.min.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="app">
+  <section class="row">
+    <div class="small-6 columns">
+	<br>
+		<img src="luffy.gif" alt="luffy" height="120" width="190">
+	<br>
+      <div class="healthbar">
+        <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{width: playerHealth + '%'}">
+          {{ playerHealth }}
+        </div>
+      </div>
+    </div>
+    <div class="small-6 columns">
+      <br>
+		<img src="wolffy.gif" alt="enemyWolf" height="120" width="190">
+	  <br>
+      <div class="healthbar">
+        <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{width: monsterHealth + '%'}">
+          {{ monsterHealth }}
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="row controls" v-if="!isStarted">
+    <div class="small-12 columns">
+      <button id="start-game" @click="isStarted = true">START NEW GAME</button>
+    </div>
+  </section>
+  <section class="row controls" v-if="isStarted">
+    <div class="small-12 columns">
+      <button id="attack" @click="attack(false)" :disabled="buttonsDisabled">ATTACK</button>
+      <button id="special-attack" @click="attack(true)" :disabled="buttonsDisabled">SPECIAL ATTACK</button>
+      <button id="heal" @click="heal" :disabled="buttonsDisabled">HEAL</button>
+      <button id="give-up" @click="initGame" :disabled="buttonsDisabled">GIVE UP</button>
+    </div>
+  </section>
+  <section class="row log" v-if="isStarted && logs.length">
+    <div class="small-12 columns">
+      <ul class="list-group">
+         <transition-group name="slide"> 
+          <li v-for="(log, index) in logs" :class="{'player-turn': log.actor === actorPlayer, 'monster-turn': log.actor === actorMonster, 'list-group-item': true}" :key="log">
+            {{ log.message }}
+          </li>
+         </transition-group> 
+      </ul>
+    </div>
+  </section>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
